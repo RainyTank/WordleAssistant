@@ -1,6 +1,8 @@
 from wordfreq import zipf_frequency
 import pygame
 
+
+
 pygame.init()
 
 (width, height) = (1200,650)
@@ -35,8 +37,8 @@ def REDRAW(xcoord,ycoord,w,h,color):
     pygame.draw.rect(screen,color,(xcoord,ycoord,w,h))
 
 #font stuff
-SMALLFONT= pygame.font.Font("freesansbold.ttf",20)
-BIGFONT= pygame.font.Font("freesansbold.ttf",35)
+SMALLFONT= pygame.font.SysFont("freesansbold.ttf",20)
+BIGFONT= pygame.font.SysFont("freesansbold.ttf",35)
 
 def text_objects(words,font,color):
     textSurface = font.render(words,True,color)
@@ -88,7 +90,7 @@ def usertyping(xcoord,ycoord,width,height,color):
                 if event.key == pygame.K_RETURN and len(userentry) == 5 and userentry.isalpha() == True:
                     userword.clear()
                     for each in userentry:
-                        userword.append(each)
+                        userword.append(each.lower())
                     userentry=''
                     usertypes=False
                 elif event.key==pygame.K_BACKSPACE:
@@ -120,12 +122,12 @@ def ButtonRow(dowhat="None", j = 0):
 
 def WelcomeDisplay():
     display_textl('Welcome to wordle assistant!',SMALLFONT,Gainsboro,BUTTONX,BUTTONY-30)
-    display_textl('I recommend starting with the word AROSE',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY-30)
-    display_textl('click the squares to cycle through colors',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY)
-    display_textl('--Gray means letter is not in the word',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+30)
-    display_textl('--Yellow is correct letter but wrong location',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+60)
-    display_textl('--Green is correct letter and location',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+90)
-    display_textl('only click run stats when you are done with the colors',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+120)
+    display_textl('Click on \'enter guess\' and start typing',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY-30)
+    display_textl('I recommend AROSE first and UNITY second',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY)
+    display_textl('You can hit ESC to stop typing',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+30)
+    display_textl('Press ENTER to submit the guess',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+60)
+    display_textl('Click the squares to cycle through colors',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+90)
+    display_textl('Only click run stats when finished with the colors',SMALLFONT,Gainsboro,BUTTONX*13,BUTTONY+120)
     
 def RunStats(dowhat="None"):
     StatsButton = GenButton(BUTTONX*8,BUTTONY+450,BUTTONW*4,BUTTONH,Tomato,Gainsboro,'Run Stats')
@@ -288,13 +290,13 @@ def updatedictionary():
         wordfrequencydictionary[each]=zipf_frequency(each, 'en')
     
     display_textl(f'the most frequent words',SMALLFONT,Gainsboro,BUTTONX*8,BUTTONY+170)
-    FWORD= dict(sorted(wordfrequencydictionary.items(), key=lambda item: item[1], reverse=True)[:5])
+    FWORD= dict(sorted(wordfrequencydictionary.items(), key=lambda item: item[1], reverse=True)[:6])
     i = 0
     for k,v in FWORD.items():
         display_textl(f'{k} = {v}',SMALLFONT,Gainsboro,BUTTONX*8,BUTTONY+200+i)
         i += 30
         
-    display_textl(f'{len(currentlist)} words remain',SMALLFONT,Gainsboro,BUTTONX*8,BUTTONY+350)
+    display_textl(f'{len(currentlist)} words remain',SMALLFONT,Gainsboro,BUTTONX*8,BUTTONY+380)
 
 def removewrong(location, letter):
     x = 0
