@@ -1,2 +1,2 @@
 ## Wordle Assistant 
-this is the code for my Wordle Assistant program!
+This is the code for my Wordle Assistant program! Please install the two modules; wordfreq and pygame
